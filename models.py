@@ -18,7 +18,7 @@ def show_models():
     model_performances = {}
 
     for model_name in models:
-        model = keras.models.load_model("models/" + model_name)
+        model = keras.models.load_model("models_old/" + model_name)
         loss, acc = model.evaluate(x=x_test, y=y_test, verbose=0)
         model_performances[model_name[6:-6]] = acc
 
