@@ -3,8 +3,8 @@ import os
 os.environ["KERAS_BACKEND"] = "tensorflow"
 
 import keras
-from keras.layers import Input, Dense, Conv2D, MaxPooling2D, Dropout, Flatten, BatchNormalization
-from keras.models import Sequential
+from keras.layers import Input, Dense, Conv2D, MaxPooling2D, Dropout, Flatten, BatchNormalization # noqa
+from keras.models import Sequential # noqa
 import requests
 import datetime
 import models
