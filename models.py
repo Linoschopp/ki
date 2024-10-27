@@ -12,9 +12,11 @@ y_test = keras.utils.to_categorical(y_test, 10)
 
 regex = re.compile(r"\d(.\d){0,2}")
 
+def load_models():
+    return list(filter(lambda x: x.startswith("model_") and x.endswith(".keras"), os.listdir("models")))
 
 def show_models():
-    models = list(filter(lambda x: x.startswith("model_2") and x.endswith(".keras"), os.listdir("models")))
+    models = load_models()
     model_performances = {}
 
     for model_name in models:
