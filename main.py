@@ -30,38 +30,17 @@ class CustomCallback(keras.callbacks.Callback):
         self.start = datetime.datetime.now()
 
     def on_epoch_end(self, epoch, logs=None):
-        """if (epoch + 1) % 50 == 0 and epoch < (epochs - 1):
-            done = datetime.datetime.now() - self.start
-            time_per_epoch = done / (epoch + 1)
-            remaining_epochs = epochs - (epoch + 1)
-            remaining_time = time_per_epoch * remaining_epochs
+        done = datetime.datetime.now() - self.start
+        time_per_epoch = done / (epoch + 1)
+        remaining_epochs = epochs - (epoch + 1)
+        remaining_time = time_per_epoch * remaining_epochs
+        finish_time = datetime.datetime.now() + remaining_time
+        if (finish_time.hour, finish_time.minute) != self.last_predicted_time:
+            self.last_predicted_time = (finish_time.hour, finish_time.minute)
             requests.post("https://ntfy.sh/linoschopp",
-                              data=f"Done at: {(datetime.datetime.now() + remaining_time).hour}:{(datetime.datetime.now() + remaining_time).minute}",
-                              headers={"Title":f"Finished epoch {epoch + 1}"}
-                         )"""
-        if (epoch == -1):
-            done = datetime.datetime.now() - self.start
-            time_per_epoch = done / (epoch + 1)
-            remaining_epochs = epochs - (epoch + 1)
-            remaining_time = time_per_epoch * remaining_epochs
-            finish_time = datetime.datetime.now() + remaining_time
-            self.last_predicted_time = (finish_time.hour, finish_time.minute, finish_time.second)
-            requests.post("https://ntfy.sh/linoschopp",
-                          data=f"Done at: {finish_time.hour:02d}:{finish_time.minute:02d}:{finish_time.second:02d}",
-                          headers={"Title": "Training started"}
+                          data=f"Done at: {finish_time.hour:02d}:{finish_time.minute:02d}",
+                          headers={"Title": f"Training: {((epoch + 1) / epochs):.1%}"}
                           )
-        elif True:  #(epoch + 1) % 50 == 0:
-            done = datetime.datetime.now() - self.start
-            time_per_epoch = done / (epoch + 1)
-            remaining_epochs = epochs - (epoch + 1)
-            remaining_time = time_per_epoch * remaining_epochs
-            finish_time = datetime.datetime.now() + remaining_time
-            if (finish_time.hour, finish_time.minute, finish_time.second) != self.last_predicted_time:
-                self.last_predicted_time = (finish_time.hour, finish_time.minute, finish_time.second)
-                requests.post("https://ntfy.sh/linoschopp",
-                              data=f"Done at: {finish_time.hour:02d}:{finish_time.minute:02d}:{finish_time.second:02d}",
-                              headers={"Title": f"Training: {((epoch + 1) / epochs):%}"}
-                              )
 
     def on_train_end(self, logs=None):
         global took
