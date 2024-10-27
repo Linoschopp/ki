@@ -8,8 +8,17 @@ from keras.models import Sequential # noqa
 import requests
 import datetime
 import models
+import argparse
 
-epochs = 14
+parser = argparse.ArgumentParser(description="Train an image generation model")
+
+parser.add_argument("-e", "--epochs",
+                    required=True, type=int, help="Number of epochs the model will be trained with")
+
+args = parser.parse_args()
+
+epochs = args.epochs
+print(f"epochs: {epochs}")
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
@@ -66,7 +75,7 @@ model.compile(
     metrics=["accuracy"]
 )
 
-model.fit(x=x_train, y=y_train, epochs=epochs)  #, callbacks=[CustomCallback()], verbose=1)
+model.fit(x=x_train, y=y_train, epochs=epochs, batch_size=128)  #, callbacks=[CustomCallback()], verbose=1)
 loss, acc = model.evaluate(x=x_test, y=y_test, verbose=1)
 #requests.post("https://ntfy.sh/linoschopp",
 #                  data=f"Took: {took}\nAccuracy: {acc:%}",
