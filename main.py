@@ -14,6 +14,8 @@ parser = argparse.ArgumentParser(description="Train an image generation model")
 
 parser.add_argument("-e", "--epochs",
                     required=True, type=int, help="Number of epochs the model will be trained with")
+parser.add_argument("-n", "--notify",
+                    )
 
 args = parser.parse_args()
 
