@@ -30,8 +30,9 @@ def show_models():
 def save_model(model, version):
     model.save(f"models/model_{version}.keras")
 
-def ask_for_save(model):
-    show_models()
+def ask_for_save(model, with_preview=True):
+    if with_preview:
+        show_models()
     version = input("Version: ")
     models = list(filter(lambda x: x.startswith("model_") and x.endswith(".keras"), os.listdir("models")))
     if version == "":
@@ -41,7 +42,7 @@ def ask_for_save(model):
         print("Saved model")
     else:
         print("Invalid version, retrying")
-        ask_for_save(model)
+        ask_for_save(model, with_preview=False)
 
 if __name__ == "__main__":
     show_models()
